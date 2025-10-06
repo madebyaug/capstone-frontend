@@ -1,53 +1,60 @@
 import { Link } from "react-router-dom";
-import products from "../api/_seed";
+import useQuery from "../api/useQuery";
 
 export default function ProductList() {
+  // get Products from API
+  const {
+    data: products,
+    loading,
+    error,
+  } = useQuery(`/products`, ["products"]);
+
+  if (loading || !products) return <h1 className="tag">loading...</h1>;
+  if (error) return <p>{error}</p>;
+
+  console.log(products);
+
   return (
-    <div id="carousel">
-      {products.map((product, index) => (
-        <div key={index} className="product">
-          <Link to={`/products/${index}`}>
-            <img src={product.imageURL[0]} alt={product.title} />
-          </Link>
+    <ul id="carousel">
+      {products.map((product) => (
+        <li key={product.id} className="product">
+          {product.price === null ? (
+            <img src={product.images[0]} alt={product.title} />
+          ) : (
+            <Link to={`/products/${product.id}`} state={{ product }}>
+              <img src={product.images[0]} alt={product.title} />
+            </Link>
+          )}
           <div className="details">
             <div>
               <h1 className="title">{product.title}</h1>
-              <Tag product={product} />
             </div>
             <Price product={product} />
           </div>
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
-export function Price({ product }) {
+function Price({ product }) {
+  console.log(product.price);
+
   return (
     //! NEEDED GPT FOR THIS
     <p className="price">
       {!product.price ? (
         ""
-      ) : product.available === false ? (
-        <del>${product.price} USD</del>
-      ) : !product.discounted ? (
-        `$${product.price} USD`
-      ) : (
+      ) : !product.available ? (
+        <del>{`${product.price} USD`}</del>
+      ) : product.discounted ? (
         <>
-          <del>${product.price} USD</del> <ins>${product.discounted} USD</ins>
+          <del>{`${product.price} USD`}</del>
+          <ins>{`${product.discounted} USD`}</ins>
         </>
+      ) : (
+        `$${product.price} USD`
       )}
     </p>
-  );
-}
-
-export function Tag({ product }) {
-  return (
-    //! NEEDED GPT FOR THIS
-    <h1 className="tags">
-      {"("}
-      {product.tags.length > 1 ? product.tags.join(", ") : product.tags}
-      {")"}
-    </h1>
   );
 }

@@ -1,5 +1,7 @@
 import { Link } from "react-router";
-import Filter from "../comps/Filter";
+
+// COMPS
+import TagList from "../comps/TagList";
 import User from "../comps/User";
 import ProductList from "../comps/ProductList";
 import Item from "../comps/Item";
@@ -11,7 +13,7 @@ export default function Home() {
         <div>
           <ul id="tags">
             <Item />
-            <Filter />
+            <TagList />
           </ul>
           <User />
         </div>

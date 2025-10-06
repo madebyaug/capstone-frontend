@@ -1,4 +1,6 @@
 import { Link } from "react-router";
+
+//COMPS
 import User from "../comps/User";
 import ProductDetails from "../comps/ProductDetail";
 import Item from "../comps/Item";

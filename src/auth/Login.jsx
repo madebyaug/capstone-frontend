@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 import { useAuth } from "./AuthContext";
 
 /** A form that allows users to log into an existing account. */
 export default function Login() {
-  const { login } = useAuth();
+  const { login, token } = useAuth();
   const navigate = useNavigate();
-
   const [error, setError] = useState(null);
 
   const onLogin = async (formData) => {
@@ -16,27 +15,45 @@ export default function Login() {
     try {
       await login({ username, password });
       navigate("/");
-    } catch (e) {
-      setError(e.message);
+    } catch (err) {
+      setError(err.message);
     }
   };
 
   return (
     <>
-      <h1>Log in to your account</h1>
-      <form action={onLogin}>
-        <label>
-          Username
-          <input type="username" name="username" required />
-        </label>
-        <label>
-          Password
-          <input type="password" name="password" required />
-        </label>
-        <button>Login</button>
-        {error && <output>{error}</output>}
-      </form>
-      <Link to="/register">Need an account? Register here.</Link>
+      {!token && (
+        <div id="login">
+          <div className="heading">
+            <h1>Sign-In</h1>
+            <p className="description">Login to access account.</p>
+          </div>
+          <form action={onLogin}>
+            <label>
+              <input
+                type="username"
+                name="username"
+                placeholder="username*"
+                required
+              />
+            </label>
+            <label>
+              <input
+                type="password"
+                name="password"
+                placeholder="password*"
+                required
+              />
+            </label>
+            <button>Proceed to Continue</button>
+          </form>
+          {error ? (
+            <h3 className="error">{error}</h3>
+          ) : (
+            <h3>Email? Reach Out at Shop@Aug.Services</h3>
+          )}
+        </div>
+      )}
     </>
   );
 }

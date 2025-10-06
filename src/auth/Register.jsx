@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 import { useAuth } from "./AuthContext";
 
@@ -11,32 +11,43 @@ export default function Register() {
   const [error, setError] = useState(null);
 
   const onRegister = async (formData) => {
+    // const fullname = formData.get("fullname");
     const username = formData.get("username");
     const password = formData.get("password");
     try {
       await register({ username, password });
-      navigate("/");
-    } catch (e) {
-      setError(e.message);
+      navigate("/users/login");
+    } catch (err) {
+      setError(err.message);
     }
   };
 
   return (
-    <>
-      <h1>Register for an account</h1>
+    <div id="register">
+      <div className="heading">
+        <h1>New User</h1>
+        <p className="description">Register for a new account.</p>
+      </div>
       <form action={onRegister}>
         <label>
-          Username
-          <input type="text" name="username" />
+          <input type="text" name="username" placeholder="username*" required />
         </label>
+
         <label>
-          Password
-          <input type="password" name="password" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="password*"
+            required
+          />
         </label>
-        <button>Register</button>
-        {error && <output>{error}</output>}
+        <button>Proceed to Continue</button>
       </form>
-      <Link to="/login">Already have an account? Log in here.</Link>
-    </>
+      {error ? (
+        <h3 className="error">{error}</h3>
+      ) : (
+        <h3>Check Email for Account Confirmation.</h3>
+      )}
+    </div>
   );
 }

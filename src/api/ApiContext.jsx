@@ -6,7 +6,7 @@
 import { createContext, useContext, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 
-export const API = import.meta.env.VITE_API_URL;
+export const API = import.meta.env.VITE_API_URL || "http://localhost:3000"; // causing {undefined} in endpoint thus my OR operater
 
 const ApiContext = createContext();
 

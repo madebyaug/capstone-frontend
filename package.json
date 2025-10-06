@@ -1,5 +1,5 @@
 {
-  "name": "foobar",
+  "name": "shop_aug_svcs",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router": "^7.6.0",
-    "react-router-dom": "^7.9.1"
+    "react-router-dom": "^7.9.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

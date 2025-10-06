@@ -17,17 +17,20 @@ export function AuthProvider({ children }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials),
     });
+    console.log(response);
     const result = await response.text();
     if (!response.ok) throw Error(result);
-    setToken(result);
+    setToken(null);
   };
 
   const login = async (credentials) => {
-    const response = await fetch(API + "/users/login", {
+    const response = await fetch(API + `/users/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials),
     });
+    console.log(API);
+    console.log(response);
     const result = await response.text();
     if (!response.ok) throw Error(result);
     setToken(result);
