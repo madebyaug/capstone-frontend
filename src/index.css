@@ -41,6 +41,12 @@
   width: 0;
 }
 
+::placeholder {
+  filter: contrast(0.9);
+  opacity: 45%;
+  color: var(--black) !important;
+}
+
 #root {
   /* Color Palette */
   --black: #111;
@@ -60,12 +66,13 @@
 a,
 a:link,
 a:visited,
+#itemQty,
 del,
 ins,
 span,
 input,
-#itemQty,
-button {
+button,
+u {
   color: var(--black);
   font-family: inherit;
   font-size: inherit;
@@ -78,11 +85,6 @@ a:visited,
 button {
   cursor: pointer;
 }
-
-/* a:hover {
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1.5px;
-} */
 
 #user :is(a, button) {
   color: var(--grey);
@@ -219,6 +221,12 @@ main#product,
   background-color: inherit;
 }
 
+.onlyitem {
+  justify-content: center;
+  align-content: left;
+  text-align: center;
+}
+
 #login {
   background: var(--yellow);
 }
@@ -244,6 +252,10 @@ main#product,
   background-color: var(--orange);
 }
 
+:is(#home, #product) :is(header, footer) > * {
+  padding: 0 var(--spacing-20);
+}
+
 :is(#error, #login, #register, #cart, #approved, #declined) .heading {
   display: flex;
   flex-direction: column;
@@ -252,10 +264,9 @@ main#product,
   width: 100%;
 }
 
-.tag a:hover {
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 3px;
+#add_remove {
+  gap: var(--spacing-10);
+  flex-direction: row;
 }
 
 #user {
@@ -310,15 +321,6 @@ main#product,
   line-height: 59px;
 }
 
-.highlighted {
-  background-color: var(--white);
-  display: inline-block;
-  height: 52px;
-  line-height: 75px;
-  padding-right: var(--spacing-05);
-  width: fit-content;
-}
-
 #cart .price {
   margin: 0;
   filter: contrast(0.9);
@@ -328,9 +330,9 @@ main#product,
   height: 68px;
 }
 
+#home #itemQty,
 #item,
-.tag,
-#home #itemQty {
+.tag {
   font-size: 85px;
   height: 66px;
   letter-spacing: -5.7px;
@@ -360,29 +362,20 @@ h6 {
   font-size: 14px;
   line-height: 15.5px;
   text-transform: uppercase;
-  /* height: 14px; */
 }
 
-h1 + p:not(.description) {
-  font-size: 34px;
-  text-decoration: underline;
-  letter-spacing: -1.75px;
-}
-
-h3 {
-  font-size: 14px;
-}
-
-h3.error {
-  color: red;
-}
-
-h6 {
-  font-size: 9px;
+#home img:hover {
+  content: url("./assets/img/hover.gif");
 }
 
 #back {
   color: var(--white);
+}
+
+.tag a:hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 3px;
 }
 
 .description {
@@ -396,7 +389,6 @@ h6 {
   font-size: 28px;
   line-height: 28px;
   letter-spacing: -1.75px;
-  /* height: 30px; */
 }
 
 .product {
@@ -414,8 +406,21 @@ h6 {
   }
 }
 
-h3,
-.caption {
+.cta del {
+  text-underline-offset: -18px;
+}
+
+.highlighted {
+  background-color: var(--white);
+  display: inline-block;
+  height: 52px;
+  line-height: 75px;
+  padding-right: var(--spacing-05);
+  width: fit-content;
+}
+
+.caption,
+h3 {
   font-family: "Light";
   letter-spacing: -0.15px;
 }
@@ -425,11 +430,6 @@ h3,
   /* flex-direction: column; */
   /* margin-bottom: 20px; */
   gap: var(--spacing-05);
-}
-
-#add_remove {
-  gap: var(--spacing-10);
-  flex-direction: row;
 }
 
 :is(#item, #cart, #error, #login, #register, #add_remove) button {
@@ -464,18 +464,28 @@ footer {
   height: 490px;
 }
 
-:is(#home, #product) :is(header, footer) > * {
-  padding: 0 var(--spacing-20);
-}
-
 img {
   /* width: 100%; */
   height: 100%;
   object-fit: scale-down;
 }
 
-#home img:hover {
-  content: url("./assets/img/hover.gif");
+h1 + p:not(.description) {
+  font-size: 34px;
+  text-decoration: underline;
+  letter-spacing: -1.75px;
+}
+
+h3 {
+  font-size: 14px;
+}
+
+h3.error {
+  color: red;
+}
+
+h6 {
+  font-size: 9px;
 }
 
 del {
@@ -486,6 +496,12 @@ del {
   text-decoration: line-through;
   text-decoration-thickness: 2px; /* optional, make bolder */
   text-decoration-color: currentColor;
+}
+
+u {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
 }
 
 form {
@@ -519,20 +535,4 @@ input {
   /* opacity: 15%; */
   filter: contrast(0.9);
   width: 100%;
-}
-
-.onlyitem {
-  justify-content: center;
-  align-content: left;
-  text-align: center;
-}
-
-::placeholder {
-  filter: contrast(0.9);
-  opacity: 45%;
-  color: var(--black) !important;
-}
-
-.cta del {
-  text-underline-offset: -18px;
 }

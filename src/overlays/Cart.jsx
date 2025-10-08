@@ -1,18 +1,44 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import useMutation from "../api/useMutation";
 
 //COMP
 import { useItem } from "../comps/ItemContext";
 
 export default function Cart() {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const { itemsQty, cartTotal, cart } = useItem();
-  const backtrack = useNavigate();
+  const navigate = useNavigate();
 
-  if (loading || !cart) return <p>Items not found</p>;
+  const {
+    mutate: add,
+    loading,
+    error,
+  } = useMutation("POST", "/", ["orders_products"]);
 
   console.log(cart);
+
+  const submit = (cart) => {
+    add({ cart });
+    navigate("/order/approved");
+  };
+
+  const submitOrder = (cart) => {
+    if (cart.length > 0) {
+      const newCart = cart.map((cartItem) => ({
+        ...cartItem,
+        orderId: cartItem.id,
+        productId: cartItem.id,
+        quantity: cartItem.quantity,
+      }));
+      setCart(newCart);
+      // submit();
+    }
+    console.log(cart);
+  };
+  if (loading || !cart) return <p>Items not found</p>;
+  // console.log(cart);
+  // console.log(cart[0].title);
+  // console.log(itemsQty);
 
   return (
     <>
@@ -31,9 +57,9 @@ export default function Cart() {
           <CartList cartTotal={cartTotal} cart={cart} />
           <div>
             {!cart.length ? (
-              <button onClick={() => backtrack(-1)}>Return to Continue</button>
+              <button onClick={() => navigate(-1)}>Return to Page</button>
             ) : (
-              <button type="submit">Proceed to Continue</button>
+              <button onClick={submitOrder}>Proceed to Continue</button>
             )}
             {error ? (
               <h3 className="error">error{error}</h3>
@@ -50,8 +76,15 @@ export default function Cart() {
 }
 
 export function CartList({ cartTotal, cart }) {
-  //! NEEDED HELP HERE INLINE DIFFICULT LAYOUT
-  console.log(cart.quantity);
+  //! NEEDED GPT FOR - Total display formatting
+  // console.log(cart[0].quantity);
+  // console.log(cart[0].title);
+  const totalDisplay = cartTotal.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  console.log(totalDisplay);
+
   return (
     <>
       {cart.length > 0 ? (
@@ -69,7 +102,7 @@ export function CartList({ cartTotal, cart }) {
           </ul>
 
           <h3>SUBTOTAL BEFORE TAXES AND SHIPPING</h3>
-          <p className="price">{cartTotal}</p>
+          <p className="price">{`$${totalDisplay}`}</p>
         </>
       ) : (
         <ul className="itemslist">

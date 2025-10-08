@@ -41,7 +41,7 @@ function Price({ product }) {
   console.log(product.price);
 
   return (
-    //! NEEDED GPT FOR THIS
+    //! NEEDED GPT FOR - Inline Operator
     <p className="price">
       {!product.price ? (
         ""

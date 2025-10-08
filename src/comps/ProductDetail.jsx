@@ -6,7 +6,7 @@ import useQuery from "../api/useQuery";
 export default function ProductDetails() {
   const location = useLocation();
   const { product } = location.state;
-  const { addItem, removeItem, cart } = useItem();
+  const { addItem, removeItem, cart, itemQty } = useItem();
   const { token } = useAuth();
 
   if (!product) return <p>Product not found</p>;
@@ -15,8 +15,10 @@ export default function ProductDetails() {
   console.log(product);
   console.log(typeof addItem);
   console.log(typeof removeItem);
-  console.log(cart);
 
+  // these should be the same
+  console.log(cart);
+  console.log(itemQty);
   return (
     <>
       <div id="carousel">
@@ -34,7 +36,10 @@ export default function ProductDetails() {
           </div>
           <div className="body">
             <p className="description">{product.description}</p>
-            <p className="caption">{product.spec}</p>
+            <p className="caption">
+              <u>SPEC:</u>
+              {` ${product.spec}`}
+            </p>
           </div>
         </article>
         {product.available ? (
